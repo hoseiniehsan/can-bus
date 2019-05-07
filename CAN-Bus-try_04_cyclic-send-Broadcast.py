@@ -31,6 +31,7 @@ via can.BusABC.send_periodic() instead.
 """
 
 print(__doc__)
+print(__file__)
 
 
 bustype = 'socketcan_native' # can_interface
