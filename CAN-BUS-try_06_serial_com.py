@@ -46,7 +46,7 @@ channel_client = '/dev/ttyS11'
 
 
 def send_cyclic(bus, msg, stop_event):
-    print("Startto send a message every 5s")
+    print("\n Start to send a message every 5s")
     start_time = time.time()
     while not stop_event.is_set():
         msg.timestamp = time.time() - start_time
@@ -58,7 +58,7 @@ def send_cyclic(bus, msg, stop_event):
     
 
 def recieve(bus, stop_event):
-    print("Start recieving messages")
+    print("\n Start recieving messages")
     while not stop_event.is_set():
         rx_msg = bus.recv(1)
         if rx_msg is not None:
@@ -99,6 +99,7 @@ if __name__ == '__main__':
     client.shutdown()
     
     print("Stopped script")
+    
 
 
 

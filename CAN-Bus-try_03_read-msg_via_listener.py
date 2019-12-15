@@ -6,8 +6,11 @@ Created on Fri Apr 12 13:10:27 2019
 @author: Ing. Ehsan Hosseini
 Project: CAN-BUS
 Task: read messages via listener -> two type listener
-A Listener can be used in two ways.
-The Listener wish to register to recieve notifications of new message on the bus.
+
+Note:    
+    A Listener can be used in two ways.
+    The Listener wish to register to recieve notifications of new message
+    on the bus.
 """
 from __future__ import print_function
 import time

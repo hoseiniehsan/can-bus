@@ -49,6 +49,7 @@ if sys.version_info < (3, 2, 0):
 
 MODULES_DIRECTORY = os.path.abspath('../../modules')
 sys.path.append(MODULES_DIRECTORY)
+# Secure Gateway Framework
 import sgframework
 
 DESCRIPTIVE_TEXT_TEMPLATE = """
