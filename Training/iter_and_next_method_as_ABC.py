@@ -6,14 +6,20 @@ Created on Sun Dec 15 14:15:24 2019
 @author: ehsan
 
 Python inheritance and Object-Oriented Programming OOP
+the informal interafces as Shape are termed as Protocol
+
+reference:
+    http://masnun.rocks/2017/04/15/interfaces-in-python-protocols-and-abcs/
 """
 
+# built-in modules
+# Abstrtact Base Class
 import abc
 
-# Abstract Base Classes
+# Abstract Base Classes (Shape is a Protocol)
 class Shape(abc.ABC):
     @abc.abstractmethod
-    def __init(self):
+    def __init__(self):
         pass
     
     @abc.abstractmethod
@@ -31,6 +37,7 @@ class Shape(abc.ABC):
     
     @abc.abstractmethod
     def __next__(self):
+        pass
     
     
     
@@ -42,8 +49,36 @@ class GeometryShape(Shape):
     superclass=True
     subclass = False
     # Initialize / Instantiate atrributes
-    def __init__(self):
+    def __init__(self, shapes):
+        self._shapes = shapes
+        self.index = 0
         print("{} class is initiated".format(type(self).__name__)) # return class name
+        #print("{} class is initiated".format(self.whoami)) # return class name
+
+    
+    def __len__(self):
+        return len(self._shapes)
+    
+    def __contains__(self, shape):
+        return shape in self._shapes
+        
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        if not self._shapes or self.index == len(self._shapes):
+            self.index=0    # reset iterable
+            raise StopIteration
+        elif self.index < len(self._shapes):
+            self.index += 1
+            return self._shapes[self.index-1]
+        
+        
+    def my_object_attributes(self):
+        return self.__dict__
+    
+    def my_class_private_attributes(self):
+        return self.__class__.__dict__
     
     # instance methods
     def whoami(self):
@@ -69,6 +104,13 @@ class GeometryShape(Shape):
     def myShape(self, newshape=''):
         self.shape = newshape
         return True
+    
+    
+# ABCs and Virtual subclass
+@GeometryShape.register
+class Threeangle:
+    shape = "Threeangle"
+    pass
 
 
 class Rectangle(GeometryShape):
@@ -78,7 +120,7 @@ class Rectangle(GeometryShape):
     subclass = True
     # Initializing / Instantiating method
     def __init__(self, length, width):
-        super().__init__() # refer to __init__ method of super class
+        super().__init__(self.shape) # refer to __init__ method of super class
         self.length = length
         self.width = width
         
@@ -100,11 +142,20 @@ class Square(Rectangle):
         
 
 
+        
+
+
 
 
 
 # Main
 if __name__ == '__main__':
+    
+    geoShapes = GeometryShape(['threeangle', 'rectangle', 'square'])
+    for shape in geoShapes:
+        print("iterable element:", shape,'\n')
+    
+    
     rectangle = Rectangle(2,3)
     print("Rectangle area: %d" % rectangle.area())
     print("Rectangle perimetr: %d" % rectangle.perimeter())
@@ -114,8 +165,16 @@ if __name__ == '__main__':
     
     print('is square an instance of Rectangle: %s \n' % isinstance(square, Rectangle))
     print('square myShape(): ', square.myShape)
-    square.myShape('square2')
+    #square.myShape('square2')
     #print('square myShape(): ', square.myShape)
+    
+    threeangle = Threeangle()
+    print("threeangle shape:", threeangle.shape)
+    print("is class Threeangle subclass of GeometryShape: {}".format(issubclass(Threeangle, GeometryShape)) )
+    print("is object threeangle instance of GeometryShape: {}".format(isinstance(threeangle, GeometryShape)) )
+    
+    isinstance(geoShapes, abc.ABC)
+    GeometryShape.whoami(GeometryShape)
 
 
 
